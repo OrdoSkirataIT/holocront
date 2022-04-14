@@ -1,3 +1,9 @@
+# Sensitive data files
+config.json
+node_modules
+.env
+
+
 # Logs
 logs
 *.log
