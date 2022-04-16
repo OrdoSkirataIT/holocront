@@ -1,6 +1,6 @@
 //Declare constants that are required for the bot to run
 const { REST } = require('@discordjs/rest');
-const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
+const { Client, Intents, Collection, MessageEmbed, Message } = require('discord.js');
 const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 const fs = require('node:fs');
@@ -58,52 +58,251 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand) return;
 
     try {
-        //Ping command
-        if (interaction.commandName === 'ping') {
-            await interaction.reply('Pong!');
-
-        }
         //Allies of the Force command code
-        else if (interaction.commandName === 'allies') {
+        if (interaction.commandName === 'allies') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/pIc8G4IAQIqb6yhdJbZLLA/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+
+            const embed = new MessageEmbed()
+                .setColor('#228B22')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setURL('https://swgoh.gg/g/15233/allies-of-the-force/')
+                .setDescription("" + data.external_message)
+                .setTimestamp()
+            const embedTwo = new MessageEmbed()
+                .setColor('#228B22')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
         //Child of Dark command code
         else if (interaction.commandName === 'dark') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/XtK7lmVxQqWfeDpBsmG_HA/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+            const embed = new MessageEmbed()
+                .setColor('black')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setURL('https://swgoh.gg/g/13000/child-of-dark/')
+                .setDescription("" + data.external_message)
+
+            const embedTwo = new MessageEmbed()
+                .setColor('black')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
         //Child of Gray command code
         else if (interaction.commandName === 'gray') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/qI_Xd-ieQ96mlvaQ4ZFNUQ/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+            const embed = new MessageEmbed()
+                .setColor('#808080')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setDescription("" + data.external_message)
+                .setURL("https://swgoh.gg/g/57175/child-of-gray/")
+
+            const embedTwo = new MessageEmbed()
+                .setColor('#808080')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
         //Child of Light command code
         else if (interaction.commandName === 'light') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/BUGhAu3zT2-QZXaCAaeTYQ/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+            const embed = new MessageEmbed()
+                .setColor('#FFA500')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setDescription("" + data.external_message)
+                .setURL("https://swgoh.gg/g/6277/child-of-light/")
+
+            const embedTwo = new MessageEmbed()
+                .setColor('#FFA500')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
         //Potentium Masters command code
         else if (interaction.commandName === 'masters') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/nhcU8fWtTMKRFOnAl5Umnw/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+            const embed = new MessageEmbed()
+                .setColor('#0277bd')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setDescription("" + data.external_message)
+                .setURL("https://swgoh.gg/g/62286/potentium-masters/")
+
+            const embedTwo = new MessageEmbed()
+                .setColor('#0277bd')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
         //Potentium Padawans command code
         else if (interaction.commandName === 'padawans') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/7CEc-w7GTu-96TBCbcPBVg/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+            const embed = new MessageEmbed()
+                .setColor('#008080')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setDescription("" + data.external_message)
+                .setURL("https://swgoh.gg/g/41650/potentium-padawans/")
+
+            const embedTwo = new MessageEmbed()
+                .setColor('#008080')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
         //Potentium Potentials command code
         else if (interaction.commandName === 'potentials') {
             await interaction.deferReply();
             const { data } = await fetch('http://api.swgoh.gg/guild-profile/MrtQD_EMQHyw4dWOBOMMJQ/').then(response => response.json());
-            interaction.editReply({ content: data.name + "\n" + data.external_message });
+            await wait(500);
+            const embed = new MessageEmbed()
+                .setColor('#FFE5B4')
+                .setTitle(data.name + " - " + data.members.length + "/50")
+                .setDescription("" + data.external_message)
+                .setURL("https://swgoh.gg/g/79649/potentium-potentials/")
+
+            const embedTwo = new MessageEmbed()
+                .setColor('#FFE5B4')
+                .setTimestamp()
+
+            for (let i = 0; i < data.members.length; i++) {
+                if (i < 25) {
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embed.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embed.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+                } else {
+
+                    if (data.members[i].member_level === 3 || data.members[i].member_level === 4) { //Bold for the officers
+                        embedTwo.addField("(Officer)\n" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    } else {
+                        embedTwo.addField("" + data.members[i].player_name, "GP: " + data.members[i].galactic_power, true);
+                    }
+
+                }
+
+            }
+            await interaction.editReply({ embeds: [embed, embedTwo] });
         }
 
     } catch (error) {
